@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-
+  devtool: 'eval-cheap-module-source-map',
   // the file where we begin the bundle process
   entry: './index.js',
 
