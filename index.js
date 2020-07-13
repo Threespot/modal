@@ -15,9 +15,9 @@
 // Note: Avoid aria-modal="true" until support is beter
 //       https://labs.levelaccess.com/index.php/ARIA_Dialog_Role_with_modal_true
 //------------------------------------------------------------------------
-"use strict";
-import scroll from "@threespot/freeze-scroll";
-import EventEmitter from "ev-emitter";
+'use strict';
+import scroll from '@threespot/freeze-scroll';
+import EventEmitter from 'ev-emitter';
 
 /**
  * Accessible modal window
@@ -39,8 +39,8 @@ export default class Modal extends EventEmitter {
       {},
       {
         transitionSpeed: 100, // CSS transition speed, required to delay focus
-        activeClasses: "", // string, accepts multiple space-separated classes
-        modalContentClass: "Modal-content", // string, optional
+        activeClasses: '', // string, accepts multiple space-separated classes
+        modalContentClass: 'Modal-content', // string, optional
         onReady: null, // ready callback function
       },
       opts
@@ -48,12 +48,10 @@ export default class Modal extends EventEmitter {
 
     if (this.options.activeClasses.length) {
       // Check if active class string contains multiple classes
-      if (this.options.activeClasses.indexOf(" ") > -1) {
+      if (this.options.activeClasses.indexOf(' ') > -1) {
         // Convert to array and remove any empty string values
         // caused by having multiple spaces in a row.
-        this.options.activeClasses = this.options.activeClasses
-          .split(" ")
-          .filter((n) => n.length);
+        this.options.activeClasses = this.options.activeClasses.split(' ').filter(n => n.length);
       } else {
         // We still need to convert a single active class to an array
         // so we can use the spread syntax later in classList.add()
@@ -62,20 +60,16 @@ export default class Modal extends EventEmitter {
     }
 
     this.el = el;
-    this.el.classList.add("js-init");
+    this.el.classList.add('js-init');
     this.isOpen = false;
     this.hasToggles = false;
-    this.contentEl = this.el.querySelector(".Modal-content");
-    this.customContentEl =
-      this.el.querySelector("." + this.options.modalContentClass) ||
-      this.contentEl;
-    this.closeEls = this.el.querySelectorAll("[data-modal-close]");
+    this.contentEl = this.el.querySelector('.Modal-content');
+    this.customContentEl = this.el.querySelector('.' + this.options.modalContentClass) || this.contentEl;
+    this.closeEls = this.el.querySelectorAll('[data-modal-close]');
 
     // If modal has an ID, check for matching toggle elements with “data-modal” attribute
     if (this.el.id) {
-      this.toggleEls = document.querySelectorAll(
-        `[data-modal="${this.el.id}"]`
-      );
+      this.toggleEls = document.querySelectorAll(`[data-modal="${this.el.id}"]`);
       this.hasToggles = !!this.toggleEls.length;
     } else {
       // If modal doesn’t have an id, add a random one for “aria-controls”
@@ -96,14 +90,8 @@ export default class Modal extends EventEmitter {
     }
 
     // Check for aria-label/aria-labelledby on modal (a11y best practice)
-    if (
-      !this.el.getAttribute("aria-label") &&
-      !this.el.getAttribute("aria-labelledby")
-    ) {
-      console.warn(
-        "A11y Issue: Modal window should have an “aria-label” or “aria-labelledby” attribute",
-        this.el
-      );
+    if (!this.el.getAttribute('aria-label') && !this.el.getAttribute('aria-labelledby')) {
+      console.warn('A11y Issue: Modal window should have an “aria-label” or “aria-labelledby” attribute', this.el);
     }
 
     // Init modal window
@@ -112,24 +100,24 @@ export default class Modal extends EventEmitter {
 
   init() {
     // Add aria attributes to modal window
-    this.el.setAttribute("aria-hidden", "true");
-    this.el.setAttribute("role", "dialog");
+    this.el.setAttribute('aria-hidden', 'true');
+    this.el.setAttribute('role', 'dialog');
 
     // Add aria attributes to toggle buttons
     if (this.hasToggles) {
-      this.toggleEls.forEach((toggleEl) => {
+      this.toggleEls.forEach(toggleEl => {
         // Add “aria-controls” but be aware only JAWS supports it
         // https://inclusive-components.design/menus-menu-buttons/#ariacontrols
-        toggleEl.setAttribute("aria-controls", this.el.id);
-        toggleEl.setAttribute("aria-expanded", "false");
-        toggleEl.setAttribute("role", "button");
+        toggleEl.setAttribute('aria-controls', this.el.id);
+        toggleEl.setAttribute('aria-expanded', 'false');
+        toggleEl.setAttribute('role', 'button');
       });
     }
 
     // Add aria attributes to close buttons
     if (this.closeEls.length) {
-      this.closeEls.forEach((closeEl) => {
-        closeEl.setAttribute("role", "button");
+      this.closeEls.forEach(closeEl => {
+        closeEl.setAttribute('role', 'button');
       });
     }
 
@@ -137,7 +125,7 @@ export default class Modal extends EventEmitter {
     this.bindEvents();
 
     // Check for ready callback
-    if (typeof this.options.onReady === "function") {
+    if (typeof this.options.onReady === 'function') {
       this.options.onReady();
     }
 
@@ -153,24 +141,24 @@ export default class Modal extends EventEmitter {
 
   destroy() {
     // Remove aria attributes on modal window
-    this.el.removeAttribute("aria-hidden");
-    this.el.removeAttribute("role");
-    this.el.removeAttribute("tabindex");
+    this.el.removeAttribute('aria-hidden');
+    this.el.removeAttribute('role');
+    this.el.removeAttribute('tabindex');
 
     // Remove aria attributes on toggle buttons
     if (this.hasToggles) {
-      this.toggleEls.forEach((toggleEl) => {
-        toggleEl.removeAttribute("aria-controls");
-        toggleEl.removeAttribute("aria-expanded");
-        toggleEl.removeAttribute("role");
+      this.toggleEls.forEach(toggleEl => {
+        toggleEl.removeAttribute('aria-controls');
+        toggleEl.removeAttribute('aria-expanded');
+        toggleEl.removeAttribute('role');
       });
     }
 
     // Remove aria attributes on close buttons
     if (this.closeEls.length) {
-      this.closeEls.forEach((closeEl) => {
-        closeEl.removeAttribute("aria-label");
-        closeEl.removeAttribute("role");
+      this.closeEls.forEach(closeEl => {
+        closeEl.removeAttribute('aria-label');
+        closeEl.removeAttribute('role');
       });
     }
 
@@ -178,7 +166,7 @@ export default class Modal extends EventEmitter {
     this.unbindEvents();
 
     // Trigger destroy event
-    this.emitEvent("destroy");
+    this.emitEvent('destroy');
   }
 
   // Find focusable elements inside of modal window (used to prevent tabbing outside of modal)
@@ -218,11 +206,7 @@ export default class Modal extends EventEmitter {
 
   windowClickHandler(evt) {
     // Ignore click on the toggle button, which already has an event handler
-    let isToggle =
-      Array.prototype.indexOf.call(
-        this.toggleEls,
-        evt.target.closest("[data-modal]")
-      ) > -1;
+    let isToggle = Array.prototype.indexOf.call(this.toggleEls, evt.target.closest('[data-modal]')) > -1;
 
     // Don’t close if target el has been removed from the DOM by the time this callback runs
     let targetElExists = document.body.contains(evt.target);
@@ -234,8 +218,7 @@ export default class Modal extends EventEmitter {
     }
 
     // Don’t close if target is a child of the modal wrapper
-    let targetInsideWrapper =
-      this.customContentEl && this.customContentEl.contains(evt.target);
+    let targetInsideWrapper = this.customContentEl && this.customContentEl.contains(evt.target);
 
     // Don’t close if target is the modal wrapper itself
     let targetIsWrapper = this.customContentEl.isSameNode(evt.target);
@@ -281,10 +264,7 @@ export default class Modal extends EventEmitter {
         // Prevent default since we're manually focusing the first element
         evt.preventDefault();
         this.firstFocusableEl.focus();
-      } else if (
-        evt.shiftKey &&
-        (focusedEl == this.firstFocusableEl || focusedEl == this.contentEl)
-      ) {
+      } else if (evt.shiftKey && (focusedEl == this.firstFocusableEl || focusedEl == this.contentEl)) {
         // If tabbing backwards and the first item is focused, focus the last item
         evt.preventDefault();
         this.lastFocusableEl.focus();
@@ -299,8 +279,8 @@ export default class Modal extends EventEmitter {
       // https://stackoverflow.com/a/22870717/673457
       this.toggleClick = this.toggle.bind(this);
 
-      this.toggleEls.forEach((toggleEl) => {
-        toggleEl.addEventListener("click", this.toggleClick);
+      this.toggleEls.forEach(toggleEl => {
+        toggleEl.addEventListener('click', this.toggleClick);
       });
     }
 
@@ -309,38 +289,38 @@ export default class Modal extends EventEmitter {
       // Event callback
       this.closeClick = this.close.bind(this);
 
-      this.closeEls.forEach((closeEl) => {
-        closeEl.addEventListener("click", this.closeClick);
+      this.closeEls.forEach(closeEl => {
+        closeEl.addEventListener('click', this.closeClick);
       });
     }
 
     // Close if click outside of modal content
     this.windowClick = this.windowClickHandler.bind(this);
-    window.addEventListener("click", this.windowClick);
+    window.addEventListener('click', this.windowClick);
 
     // Keyboard events
     this.keydown = this.keydownHandler.bind(this);
-    window.addEventListener("keydown", this.keydown);
+    window.addEventListener('keydown', this.keydown);
   }
 
   unbindEvents() {
     // Toggle buttons
     if (this.hasToggles) {
-      this.toggleEls.forEach((toggleEl) => {
-        toggleEl.removeEventListener("click", this.toggleClick);
+      this.toggleEls.forEach(toggleEl => {
+        toggleEl.removeEventListener('click', this.toggleClick);
       });
     }
 
     // Close buttons
     if (this.closeEls.length) {
-      this.closeEls.forEach((closeEl) => {
-        closeEl.removeEventListener("click", this.closeClick);
+      this.closeEls.forEach(closeEl => {
+        closeEl.removeEventListener('click', this.closeClick);
       });
     }
 
     // Window events
-    window.removeEventListener("click", this.windowClick);
-    window.removeEventListener("keydown", this.keydown);
+    window.removeEventListener('click', this.windowClick);
+    window.removeEventListener('keydown', this.keydown);
   }
 
   // Expand expandable
@@ -360,7 +340,7 @@ export default class Modal extends EventEmitter {
     }
 
     // Update modal aria attributes
-    this.el.setAttribute("aria-hidden", "false");
+    this.el.setAttribute('aria-hidden', 'false');
 
     // Add custom classes
     if (this.options.activeClasses.length) {
@@ -369,8 +349,8 @@ export default class Modal extends EventEmitter {
 
     // Update toggle aria attributes
     if (this.hasToggles) {
-      this.toggleEls.forEach((toggleEl) => {
-        toggleEl.setAttribute("aria-expanded", "true");
+      this.toggleEls.forEach(toggleEl => {
+        toggleEl.setAttribute('aria-expanded', 'true');
 
         // Add custom classes
         if (this.options.activeClasses.length) {
@@ -381,10 +361,10 @@ export default class Modal extends EventEmitter {
 
     // Focus modal on open
     if (this.contentEl) {
-      this.contentEl.setAttribute("tabindex", "-1");
+      this.contentEl.setAttribute('tabindex', '-1');
       this.focusDelay(this.contentEl);
     } else {
-      this.el.setAttribute("tabindex", "-1");
+      this.el.setAttribute('tabindex', '-1');
       this.focusDelay(this.el);
     }
 
@@ -400,7 +380,7 @@ export default class Modal extends EventEmitter {
     this.isOpen = true;
 
     // Trigger open event
-    this.emitEvent("open");
+    this.emitEvent('open');
   }
 
   // Collapse expandable
@@ -413,7 +393,7 @@ export default class Modal extends EventEmitter {
     // }
 
     // Update modal aria attributes
-    this.el.setAttribute("aria-hidden", "true");
+    this.el.setAttribute('aria-hidden', 'true');
 
     // Remove custom classes
     if (this.options.activeClasses.length) {
@@ -422,8 +402,8 @@ export default class Modal extends EventEmitter {
 
     // Update toggle aria attributes
     if (this.hasToggles) {
-      this.toggleEls.forEach((toggleEl) => {
-        toggleEl.setAttribute("aria-expanded", "false");
+      this.toggleEls.forEach(toggleEl => {
+        toggleEl.setAttribute('aria-expanded', 'false');
 
         // Remove custom classes
         if (this.options.activeClasses.length) {
@@ -447,7 +427,7 @@ export default class Modal extends EventEmitter {
     this.isOpen = false;
 
     // Trigger close event
-    this.emitEvent("close");
+    this.emitEvent('close');
   }
 
   // Toggle expandable

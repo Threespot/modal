@@ -16,6 +16,7 @@
     "@threespot/prettier-config": "^1.0.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
@@ -26,5 +27,10 @@
     "patch": "read -p 'Confirm create new patch (0.0.x) to npm: (y/n) ' -n 1 -r \n if [[ $REPLY =~ ^[Yy]$ ]] \n then \n yarn npm-patch \n fi",
     "minor": "read -p 'Confirm create new minor version (0.x.0) to npm (y/n) ' -n 1 -r \n if [[ $REPLY =~ ^[Yy]$ ]] \n then \n yarn npm-minor \n fi",
     "major": "read -p 'Confirm create new major version (x.0.0) to npm (y/n) ' -n 1 -r \n if [[ $REPLY =~ ^[Yy]$ ]] \n then \n yarn npm-major \n fi"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run test"
+    }
   }
 }
