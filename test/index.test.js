@@ -31,7 +31,7 @@ describe('Modal', () => {
     modalMarkup();
   });
 
-  test('When a person clicks the open button, should display the modal window', () => {
+  test('When a person clicks the open button, it should display the modal window', () => {
     // Arrange
     let toggle = document.querySelector('[data-testid="toggle"]');
     let container = document.querySelector('[data-testid="container"]');
@@ -45,23 +45,100 @@ describe('Modal', () => {
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
   });
 
-  test('When a person clicks the close button, should hide the modal window', () => {
+  test('When a person clicks the open button, it should have the appropriate styles', () => {
+    // Arrange
+    let toggle = document.querySelector('[data-testid="toggle"]');
+    let container = document.querySelector('[data-testid="container"]');
+    let modal = new Modal(container, { activeClasses: 'is-active dialog' });
+
+    // Act
+    toggle.click();
+
+    // Assert
+    expect(container.classList.contains('is-active')).toBeTruthy();
+    expect(container.classList.contains('dialog')).toBeTruthy();
+  });
+
+  test('When a person clicks the close button, it should hide the modal window', () => {
     // Arrange
     let toggle = document.querySelector('[data-testid="toggle"]');
     let closeBtn = document.querySelector('[data-testid="close"]');
     let container = document.querySelector('[data-testid="container"]');
     let modal = new Modal(container);
+    toggle.click();
+    // Capture the opened version of the modal for testing
+    let openedContainer = document.querySelector('[data-testid="container"]').outerHTML;
 
     // Act
-    toggle.click();
-
-    let closed = document.querySelector('[data-testid="container"]');
-
     closeBtn.click();
 
     // Assert
-    console.log(closed.outerHTML);
+    expect(container.getAttribute('aria-hidden')).toBe('true');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
   });
 
-  test('When a person clicks the ESC key on an open modal, should hide the modal window', () => {});
+  test('When a person clicks outside the modal window, it should hide the modal window', () => {
+    // Arrange
+    let toggle = document.querySelector('[data-testid="toggle"]');
+    let closeBtn = document.querySelector('[data-testid="close"]');
+    let container = document.querySelector('[data-testid="container"]');
+    let modal = new Modal(container);
+    // let escapeKey = new KeyboardEvent('keydown', { keyCode: 27 });
+
+    toggle.click();
+
+    // Capture the opened version of the modal for testing
+    let openedContainer = document.querySelector('[data-testid="container"]').outerHTML;
+
+    // Act
+    container.click();
+
+    // Assert
+    expect(container.getAttribute('aria-hidden')).toBe('true');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  test('When a person presses the ESC key, it should hide the modal window', () => {
+    // Arrange
+    let toggle = document.querySelector('[data-testid="toggle"]');
+    let container = document.querySelector('[data-testid="container"]');
+    let modal = new Modal(container);
+    let escapeKey = new KeyboardEvent('keydown', {
+      keyCode: 27,
+      which: 27,
+      code: 'Escape',
+      key: 'Escape',
+      bubbles: true,
+    });
+    toggle.click();
+    let openedContainer = document.querySelector('[data-testid="container"]').outerHTML;
+
+    // Act;
+    document.dispatchEvent(escapeKey);
+
+    // Assert
+    expect(container.getAttribute('aria-hidden')).toBe('true');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  test('When a person presses the ESC key on a closed modal window, it should do nothing', () => {
+    // Arrange
+    let toggle = document.querySelector('[data-testid="toggle"]');
+    let container = document.querySelector('[data-testid="container"]');
+    let modal = new Modal(container);
+    let escapeKey = new KeyboardEvent('keydown', {
+      keyCode: 27,
+      which: 27,
+      code: 'Escape',
+      key: 'Escape',
+      bubbles: true,
+    });
+
+    // Act;
+    document.dispatchEvent(escapeKey);
+
+    // Assert
+    expect(container.getAttribute('aria-hidden')).toBe('true');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  });
 });
