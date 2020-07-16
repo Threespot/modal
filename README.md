@@ -1,7 +1,6 @@
 # Modal
-A progressively enhanced modal window that supports multiple toggles and multiple close buttons.  
+A progressively enhanced modal window that supports multiple toggles, multiple close buttons, and works with pure CSS thanks to `:target` pseudo selector.  
 
-## Install
 ```bash
 yarn add @threespot/modal
 ```
@@ -15,22 +14,14 @@ import Modal from "@threespot/modal";
 
 const container = document.getElementById("modal");
 
-// Opts are optional
-const opts = {
-	activeClasses: "active bg-red",
-};
-
 new Modal(container, opts);
 
 // If you have more than one modal on the page
+
 const containers = document.querySelectorAll(".Modal");
 
-const opts = {
-	activeClasses: "active bg-red",
-};
-
 // ES6
-containers.forEach(container => new Modal(container, opts));
+containers.forEach(container => new Modal(container));
 
 // ES5 
 for (var i = 0, len = containers.length; i < len; i+=1) {
