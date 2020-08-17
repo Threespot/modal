@@ -112,7 +112,7 @@ for (var i = 0, len = containers.length; i < len; i+=1) {
 
 ```
 
-**Minimum markdown needed**
+**Minimum markup needed**
 
 ```html
 <!-- you can have multiple toggle buttons --> 
