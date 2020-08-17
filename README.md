@@ -122,7 +122,7 @@ for (var i = 0, len = containers.length; i < len; i+=1) {
 <!-- Modal must have an aria-label / aria-labelledby attribute -->
 <!-- This modal window adds aria-hidden & role='dialog' out of the box -->
 <div class="Modal" id="foo">
-	<!-- It doesn't matter where this is located -->
+<!-- It doesn't matter where this is located -->
 	<!-- Codebase stores this by data-modal -->
 	<!-- We add role="button" to the close button automatically -->
 	<a class="Modal-close" href="#nav-modal-toggle" data-modal-close>Close</a>
