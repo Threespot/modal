@@ -1,17 +1,14 @@
 const path = require('path');
 
+// Contains all the configurations shared between dev and production
 module.exports = {
-  mode: 'development',
-  devtool: 'eval-cheap-module-source-map',
-  // the file where we begin the bundle process
-  entry: './index.js',
-
-  // where we are going to emit the new bundled file
+  entry: {
+    index: './index.js',
+  },
   output: {
     path: path.resolve(__dirname, 'dist'), // has to be an absolute path
-    filename: 'modal.js',
+    filename: '[name].bundle.js',
   },
-
   // Loaders
   module: {
     // Takes our ES6 javascript and make it compatible w/ browsers old and new
