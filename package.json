@@ -1,8 +1,11 @@
 {
-  "name": "modal",
+  "name": "@threespot/modal",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/Threespot/modal.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Threespot/modal.git"
+  },
   "author": "David Yearwood <dwhywood@gmail.com>",
   "license": "MIT",
   "prettier": "@threespot/prettier-config",
@@ -32,5 +35,13 @@
     "hooks": {
       "pre-commit": "yarn run test"
     }
+  },
+  "description": "A progressively enhanced modal window that supports multiple toggles, multiple close buttons, and works with pure CSS thanks to `:target` pseudo selector.",
+  "bugs": {
+    "url": "https://github.com/Threespot/modal/issues"
+  },
+  "homepage": "https://github.com/Threespot/modal#readme",
+  "directories": {
+    "test": "test"
   }
 }
