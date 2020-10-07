@@ -1,7 +1,7 @@
 {
   "name": "@threespot/modal",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Threespot/modal.git"
